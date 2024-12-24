@@ -11,7 +11,7 @@
 #include <sys/types.h>
 #include <pwd.h>
 #endif
-#include "io.h"
+#include "IO.h"
 
 namespace filesystem = boost::filesystem;
 
@@ -57,9 +57,23 @@ namespace Cite
             throw std::runtime_error("Unable to determine the user's home directory.");
         }
 
+        std::string joinPath(const std::string &path1, const std::string &path2)
+        {
+            return path1 + filesystem::path::preferred_separator + path2;
+        }
+
         std::string getBasePath()
         {
-            return getHomeDirPath() + filesystem::path::preferred_separator + ".cite";
+            return joinPath(getHomeDirPath(), ".cite");
+        }
+
+        void initBasePath()
+        {
+            const std::string basePath = getBasePath();
+            if (!filesystem::exists(basePath))
+            {
+                filesystem::create_directory(basePath);
+            }
         }
     }
 }
