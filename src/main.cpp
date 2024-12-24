@@ -4,28 +4,28 @@
 #include <iostream>
 #include <string>
 
-namespace po = boost::program_options;
+namespace program_options = boost::program_options;
 
 int main(int argc, char *argv[])
 {
     try
     {
         // Define the supported options
-        po::options_description desc("Allowed options");
-        desc.add_options()("help,h", "Display help message")("collectionName", po::value<std::string>(), "Name of the collection to use");
+        program_options::options_description desc("Allowed options");
+        desc.add_options()("help,h", "Display help message")("collectionName", program_options::value<std::string>(), "Name of the collection to use");
 
         // Define positional options
-        po::positional_options_description p;
+        program_options::positional_options_description p;
         p.add("collectionName", 1); // The first positional argument is 'collectionName'
 
-        po::variables_map vm;
+        program_options::variables_map vm;
 
         // Parse command-line arguments with positional options
-        po::store(po::command_line_parser(argc, argv)
-                      .options(desc)
-                      .positional(p)
-                      .run(),
-                  vm);
+        program_options::store(program_options::command_line_parser(argc, argv)
+                                   .options(desc)
+                                   .positional(p)
+                                   .run(),
+                               vm);
 
         // Handle help option before notifying (to allow help without required options)
         if (vm.count("help"))
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
         }
 
         // Notify will throw if required options are missing
-        po::notify(vm);
+        program_options::notify(vm);
 
         // Check if 'collectionName' was provided
         if (vm.count("collectionName"))
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
             return 1;
         }
     }
-    catch (const po::error &e)
+    catch (const program_options::error &e)
     {
         std::cerr << "Error: " << e.what() << "\n";
         std::cerr << "Use --help or -h to display usage.\n";

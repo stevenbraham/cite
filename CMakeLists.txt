@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Find Boost.Program_options
 # The REQUIRED flag ensures that CMake will terminate if Boost.Program_options isn't found
-find_package(Boost 1.70.0 COMPONENTS program_options REQUIRED)
+find_package(Boost 1.70.0 COMPONENTS program_options filesystem REQUIRED)
 
 if(Boost_FOUND)
     # Include Boost headers
@@ -32,4 +32,4 @@ add_executable(cite ${SOURCES})
 target_include_directories(cite PRIVATE src/lib)
 
 # Link Boost.Program_options library
-target_link_libraries(cite PRIVATE Boost::program_options)
+target_link_libraries(cite PRIVATE Boost::program_options Boost::filesystem)
