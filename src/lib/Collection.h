@@ -18,6 +18,10 @@ namespace Cite
          * Returns the path to the collection file on disk.
          */
         std::string getCollectionPath();
+        /**
+         * Serializes the collection to disk.
+         */
+        void writeToDisk();
 
     public:
         /**

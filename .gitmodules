@@ -1,3 +1,6 @@
 [submodule "external/cpp-slugify"]
 	path = external/cpp-slugify
 	url = git@github.com:thomasbrueggemann/cpp-slugify.git
+[submodule "external/yaml-cpp"]
+	path = external/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git
