@@ -45,4 +45,39 @@ namespace Cite
         const std::string fileName = slugify(this->name) + ".yaml";
         return IO::joinPath(basePath, fileName);
     }
+
+    void Collection::addCitation(const Citation &citation)
+    {
+        this->citations.push_back(citation);
+    }
+
+    std::vector<Citation> Collection::getCitations()
+    {
+        return this->citations;
+    }
+
+    Citation &Collection::getCitation(const std::string &name)
+    {
+        for (Citation &citation : this->citations)
+        {
+            if (citation.getName() == name)
+            {
+                return citation;
+            }
+        }
+        throw std::runtime_error("Citation not found: " + name);
+    }
+
+    void Collection::removeCitation(const std::string &name)
+    {
+        for (auto it = this->citations.begin(); it != this->citations.end(); ++it)
+        {
+            if (it->getName() == name)
+            {
+                this->citations.erase(it);
+                return;
+            }
+        }
+    }
+
 }

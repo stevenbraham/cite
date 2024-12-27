@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <vector>
+#include "Citation.h"
 
 namespace Cite
 {
@@ -10,6 +12,7 @@ namespace Cite
     {
     private:
         std::string name;
+        std::vector<Citation> citations;
 
         /**
          * Returns the path to the collection file on disk.
@@ -23,6 +26,27 @@ namespace Cite
          */
         Collection(const std::string &name);
 
+        void addCitation(const Citation &citation);
+
+        /**
+         * Retrieves a citation from the collection by name.
+         * Throws an exception if the citation is not found.
+         */
+        Citation &getCitation(const std::string &name);
+
+        /**
+         * Removes a citation from the collection by name.
+         */
+        void removeCitation(const std::string &name);
+
+        /**
+         * Lists the citations in the collection.
+         */
         void list();
+
+        /**
+         * Returns a vector of all citations in the collection.
+         */
+        std::vector<Citation> getCitations();
     };
 }
