@@ -72,6 +72,36 @@ namespace Cite
         std::optional<std::string> dissertation_type;
 
     public:
-        Citation(const std::string &title);
+        // Getters and Setters
+
+        // Getters
+        const std::string &getName() const;
+        const std::string &getTitle() const;
+        const std::vector<std::string> &getAuthors() const;
+        int getYear() const;
+        const std::string &getPublisher() const;
+        const std::string &getPlaceOfPublication() const;
+        CitationType getType() const;
+        const std::optional<std::string> &getPages() const;
+        const std::optional<std::string> &getJournalName() const;
+        const std::optional<std::string> &getVolume() const;
+        const std::optional<std::string> &getIssue() const;
+        const std::vector<std::string> &getEditorNames() const;
+        const std::optional<std::string> &getDissertationType() const;
+
+        // Setters
+        void setName(const std::string &value);
+        void setTitle(const std::string &value);
+        void setAuthors(const std::vector<std::string> &value);
+        void setYear(int value);
+        void setPublisher(const std::string &value);
+        void setPlaceOfPublication(const std::string &value);
+        void setType(CitationType value);
+        void setPages(const std::optional<std::string> &value);
+        void setJournalName(const std::optional<std::string> &value);
+        void setVolume(const std::optional<std::string> &value);
+        void setIssue(const std::optional<std::string> &value);
+        void setEditorNames(const std::vector<std::string> &value);
+        void setDissertationType(const std::optional<std::string> &value);
     };
 }
