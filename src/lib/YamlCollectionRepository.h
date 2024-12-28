@@ -20,5 +20,7 @@ namespace Cite
          * Stores the collection to disk in YAML format.
          */
         void serializeCollection(const Models::Collection &collection) const override;
+
+        Models::Collection initCollection(const std::string &name) override;
     };
 }

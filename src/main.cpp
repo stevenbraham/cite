@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    Cite::Models::Collection collection(collectionName);
+    Cite::Models::Collection collection = repository.initCollection(collectionName);
 
     const std::string action = vm["action"].as<std::string>();
 

@@ -1,4 +1,5 @@
 #include "YamlCollectionRepository.h"
+#include "Collection.h"
 #include "IO.h"
 #include <boost/filesystem.hpp>
 #include <yaml-cpp/yaml.h>
@@ -121,5 +122,71 @@ namespace Cite
         // Write the YAML string to the file
         collectionFile << yaml_contents.c_str();
         collectionFile.close();
+    }
+
+    Models::Collection YamlCollectionRepository::initCollection(const std::string &name)
+    {
+        Models::Collection collection(name);
+
+        // first check if the collection file exists
+        auto collectionPath = this->getCollectionPath(collection);
+
+        if (boost::filesystem::exists(collectionPath))
+        {
+            // load file and parse YAML
+            YAML::Node yaml = YAML::LoadFile(collectionPath);
+
+            if (yaml["citations"])
+            {
+                // build citation objects by looping through the YAML
+
+                for (auto citation = yaml["citations"].begin(); citation != yaml["citations"].end(); ++citation)
+                {
+                    Models::Citation newCitation;
+                    newCitation.setName((*citation)["name"].as<std::string>());
+                    newCitation.setTitle((*citation)["title"].as<std::string>());
+                    newCitation.setYear((*citation)["year"].as<int>());
+                    newCitation.setPublisher((*citation)["publisher"].as<std::string>());
+                    newCitation.setPlaceOfPublication((*citation)["place_of_publication"].as<std::string>());
+
+                    if ((*citation)["pages"])
+                    {
+                        newCitation.setPages((*citation)["pages"].as<std::string>());
+                    }
+
+                    if ((*citation)["journal_name"])
+                    {
+                        newCitation.setJournalName((*citation)["journal_name"].as<std::string>());
+                    }
+
+                    if ((*citation)["volume"])
+                    {
+                        newCitation.setVolume((*citation)["volume"].as<std::string>());
+                    }
+
+                    if ((*citation)["issue"])
+                    {
+                        newCitation.setIssue((*citation)["issue"].as<std::string>());
+                    }
+
+                    // if ((*citation)["editor_names"])
+                    // {
+                    //     for (auto const editor = (*citation)["editor_names"].begin(); editor != (*citation)["editor_names"].end(); ++editor)
+                    //     {
+                    //         // newCitation.addEditorName(editor->as<std::string>());
+                    //     }
+                    // }
+
+                    if ((*citation)["dissertation_type"])
+                    {
+                        newCitation.setDissertationType((*citation)["dissertation_type"].as<std::string>());
+                    }
+
+                    collection.addCitation(newCitation);
+                }
+            }
+        }
+
+        return collection;
     }
 }
