@@ -4,44 +4,59 @@ project(cite LANGUAGES CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Specify the path to your vcpkg toolchain file if not already set
-# You can set this externally when invoking CMake, for example:
-# cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=<path-to-vcpkg>/scripts/buildsystems/vcpkg.cmake
-# Uncomment the following line if you want to set it here
-# set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+# Optionally set the vcpkg toolchain file if not set externally
+# Uncomment and set the path if you want to define it here
+# set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 
-# Find Boost.Program_options and Boost.Filesystem
+# Find Boost libraries
 find_package(Boost 1.70.0 COMPONENTS program_options filesystem REQUIRED)
 
 if(Boost_FOUND)
-    # Include Boost headers
-    include_directories(${Boost_INCLUDE_DIRS})
+    # It's better to use target_include_directories with specific targets
+    message(STATUS "Boost found: ${Boost_INCLUDE_DIRS}")
 else()
     message(FATAL_ERROR "Boost.Program_options or Boost.Filesystem not found. Please install them via vcpkg.")
 endif()
 
-
 # Add yaml-cpp subdirectory
 add_subdirectory(external/yaml-cpp)
 
+# Collect all .cpp files
+# It's recommended to explicitly list source files or use GLOB for simplicity
+file(GLOB SRC_FILES "src/*.cpp")
+file(GLOB LIB_FILES "src/lib/*.cpp")
+file(GLOB MODELS_FILES "src/models/*.cpp")
 
-# Collect all .cpp files directly under src/
-aux_source_directory(src SOURCES)
-
-# Collect all .cpp files under src/lib/
-aux_source_directory(src/lib LIB_SOURCES)
-
-# Combine sources
-list(APPEND SOURCES ${LIB_SOURCES})
+# Combine all source files
+set(SOURCES ${SRC_FILES} ${LIB_FILES} ${MODELS_FILES})
 
 # Add executable
 add_executable(cite ${SOURCES})
 
 # Include directories
-# Assuming src/lib contains headers you want to include
-target_include_directories(cite PRIVATE src/lib)
+target_include_directories(cite 
+    PRIVATE 
+        src/lib 
+        src/models 
+        ${Boost_INCLUDE_DIRS}
+        external/yaml-cpp/include
+)
 
 # Link libraries
-target_link_libraries(cite PRIVATE Boost::program_options Boost::filesystem yaml-cpp)
+target_link_libraries(cite 
+    PRIVATE 
+        Boost::program_options 
+        Boost::filesystem 
+        yaml-cpp
+)
+
+# Optionally, set properties or compile options
+# For example, to enable warnings:
+if (MSVC)
+    target_compile_options(cite PRIVATE /W4 /WX)
+else()
+    target_compile_options(cite PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()

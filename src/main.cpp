@@ -1,10 +1,10 @@
 #include <boost/program_options.hpp>
-#include "lib/Collection.h"
-#include "lib/Citation.h"
 #include <iostream>
 #include <string>
 #include "lib/IO.h"
 #include "lib/YamlCollectionRepository.h"
+#include "models/Collection.h"
+#include "models/Citation.h"
 
 namespace program_options = boost::program_options;
 
@@ -32,12 +32,12 @@ Cite::YamlCollectionRepository repository;
 /**
  * Prompts the user to create a new citation.
  */
-Cite::Citation createCitation()
+Cite::Models::Citation createCitation()
 {
     std::cout << "Enter the title of the citation: ";
     std::string title;
     std::getline(std::cin, title);
-    Cite::Citation citation;
+    Cite::Models::Citation citation;
 
     citation.setTitle(title);
 
@@ -47,7 +47,7 @@ Cite::Citation createCitation()
 /**
  * Handles the 'add' action for a collection.
  */
-void handleAdd(Cite::Collection &collection)
+void handleAdd(Cite::Models::Collection &collection)
 {
     std::cout << "Adding citation to collection: " << collection.getName() << std::endl;
     collection.addCitation(createCitation());
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    Cite::Collection collection(collectionName);
+    Cite::Models::Collection collection(collectionName);
 
     const std::string action = vm["action"].as<std::string>();
 

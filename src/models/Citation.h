@@ -4,7 +4,7 @@
 #include <vector>
 #include "CitationTypes.h"
 
-namespace Cite
+namespace Cite::Models
 {
     /**
      * Represents a citation.

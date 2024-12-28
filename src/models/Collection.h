@@ -3,7 +3,7 @@
 #include <vector>
 #include "Citation.h"
 
-namespace Cite
+namespace Cite::Models
 {
     /**
      * Represents a collection of citations.

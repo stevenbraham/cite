@@ -7,14 +7,14 @@
 
 namespace Cite
 {
-    std::string YamlCollectionRepository::getCollectionPath(const Collection &collection) const
+    std::string YamlCollectionRepository::getCollectionPath(const Models::Collection &collection) const
     {
         const std::string basePath = IO::getBasePath();
         const std::string fileName = collection.getName() + ".yaml";
         return IO::joinPath(basePath, fileName);
     }
 
-    void YamlCollectionRepository::serializeCollection(const Collection &collection) const
+    void YamlCollectionRepository::serializeCollection(const Models::Collection &collection) const
     {
         auto collectionPath = this->getCollectionPath(collection);
 

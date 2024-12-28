@@ -1,5 +1,5 @@
 #pragma once
-#include "Collection.h"
+#include "../models/Collection.h"
 #include "CollectionRepository.h"
 
 namespace Cite
@@ -13,12 +13,12 @@ namespace Cite
         /**
          * Returns the path to the collection file on disk.
          */
-        std::string getCollectionPath(const Collection &collection) const;
+        std::string getCollectionPath(const Models::Collection &collection) const;
 
     public:
         /**
          * Stores the collection to disk in YAML format.
          */
-        void serializeCollection(const Collection &collection) const override;
+        void serializeCollection(const Models::Collection &collection) const override;
     };
 }

@@ -1,6 +1,6 @@
 #include "Citation.h"
 
-namespace Cite
+namespace Cite::Models
 {
     // Getters
     const std::string &Citation::getName() const

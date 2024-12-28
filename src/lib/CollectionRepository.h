@@ -1,5 +1,5 @@
 #pragma once
-#include "Collection.h"
+#include "../models/Collection.h"
 
 namespace Cite
 {
@@ -11,6 +11,6 @@ namespace Cite
         /**
          * Stores the collection to disk or other persitant storage.
          */
-        virtual void serializeCollection(const Collection &collection) const = 0;
+        virtual void serializeCollection(const Models::Collection &collection) const = 0;
     };
 }

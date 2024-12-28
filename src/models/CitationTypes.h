@@ -1,5 +1,5 @@
 #pragma once
-namespace Cite
+namespace Cite::Models
 {
     /**
      * Represents the type of a citation.

@@ -2,7 +2,7 @@
 #include "../../external/cpp-slugify/slugify.hpp"
 #include <iostream>
 
-namespace Cite
+namespace Cite::Models
 {
 
     std::string Collection::getName() const
