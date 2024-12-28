@@ -44,14 +44,15 @@ namespace Cite
         this->writeToDisk();
     }
 
-    std::vector<Citation> Collection::getCitations()
+    const std::vector<Citation> &Collection::getCitations() const
     {
         return this->citations;
     }
 
-    Citation &Collection::getCitation(const std::string &name)
+    const Citation &Collection::getCitation(const std::string &name) const
     {
-        for (Citation &citation : this->citations)
+        for (const auto &citation : this->citations)
+
         {
             if (citation.getName() == name)
             {

@@ -36,7 +36,7 @@ namespace Cite
          * Retrieves a citation from the collection by name.
          * Throws an exception if the citation is not found.
          */
-        Citation &getCitation(const std::string &name);
+        const Citation &getCitation(const std::string &name) const;
 
         /**
          * Removes a citation from the collection by name.
@@ -51,6 +51,6 @@ namespace Cite
         /**
          * Returns a vector of all citations in the collection.
          */
-        std::vector<Citation> getCitations();
+        const std::vector<Citation> &getCitations() const;
     };
 }
