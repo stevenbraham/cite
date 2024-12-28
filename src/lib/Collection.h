@@ -11,17 +11,11 @@ namespace Cite
     class Collection
     {
     private:
+        /**
+         * Name of the collection, used as ID key for referencing.
+         */
         std::string name;
         std::vector<Citation> citations;
-
-        /**
-         * Returns the path to the collection file on disk.
-         */
-        std::string getCollectionPath();
-        /**
-         * Serializes the collection to disk.
-         */
-        void writeToDisk();
 
     public:
         /**
@@ -29,6 +23,13 @@ namespace Cite
          * @param name The name of the collection.
          */
         Collection(const std::string &name);
+
+        /**
+         * Returns the name of the collection.
+         * The name is used as an ID key for referencing the collection
+         * @return The name of the collection as a slug
+         */
+        std::string getName() const;
 
         void addCitation(const Citation &citation);
 

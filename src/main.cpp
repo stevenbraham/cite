@@ -1,7 +1,10 @@
 #include <boost/program_options.hpp>
 #include "lib/Collection.h"
+#include "lib/Citation.h"
 #include <iostream>
 #include <string>
+#include "lib/IO.h"
+#include "lib/YamlCollectionRepository.h"
 
 namespace program_options = boost::program_options;
 
@@ -24,8 +27,37 @@ program_options::variables_map setupArgs(int argc, char *argv[], const program_o
     return vm;
 }
 
+Cite::YamlCollectionRepository repository;
+
+/**
+ * Prompts the user to create a new citation.
+ */
+Cite::Citation createCitation()
+{
+    std::cout << "Enter the title of the citation: ";
+    std::string title;
+    std::getline(std::cin, title);
+    Cite::Citation citation;
+
+    citation.setTitle(title);
+
+    return citation;
+}
+
+/**
+ * Handles the 'add' action for a collection.
+ */
+void handleAdd(Cite::Collection &collection)
+{
+    std::cout << "Adding citation to collection: " << collection.getName() << std::endl;
+    collection.addCitation(createCitation());
+    std::cout << "Citation added to collection: " << collection.getName() << std::endl;
+    repository.serializeCollection(collection);
+}
+
 int main(int argc, char *argv[])
 {
+    Cite::IO::initBasePath();
 
     // Define the supported options
     program_options::options_description desc("Allowed options");
@@ -70,7 +102,7 @@ int main(int argc, char *argv[])
     }
     else if (action == "add")
     {
-        std::cout << "Adding citation to collection: " << collectionName << std::endl;
+        handleAdd(collection);
     }
     else
     {

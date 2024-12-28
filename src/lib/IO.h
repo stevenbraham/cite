@@ -4,6 +4,9 @@
 
 namespace Cite
 {
+    /**
+     * IO helper functions for working with files and directories.
+     */
     namespace IO
     {
         /**
