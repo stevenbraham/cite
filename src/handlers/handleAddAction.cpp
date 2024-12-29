@@ -1,7 +1,7 @@
 #include "../lib/CollectionRepository.h"
 #include "../models/Collection.h"
+#include "../lib/toSlug.h"
 #include <iostream>
-
 namespace Cite
 {
     namespace Handlers
@@ -12,10 +12,16 @@ namespace Cite
          */
         Cite::Models::Citation createCitation()
         {
-            std::cout << "Enter the title of the citation: ";
+            Cite::Models::Citation citation;
+
+            std::cout << "Enter the shortname of the citation:\t";
+            std::string name;
+            std::getline(std::cin, name);
+            citation.setName(Cite::toSlug(name));
+
+            std::cout << "Enter the title of the citation:\t";
             std::string title;
             std::getline(std::cin, title);
-            Cite::Models::Citation citation;
 
             citation.setTitle(title);
 
@@ -25,8 +31,9 @@ namespace Cite
         void handleAddAction(Cite::Models::Collection &collection, CollectionRepository &repository)
         {
             std::cout << "Adding citation to collection: " << collection.getName() << std::endl;
-            collection.addCitation(createCitation());
-            std::cout << "Citation added to collection: " << collection.getName() << std::endl;
+            auto citation = createCitation();
+            collection.addCitation(citation);
+            std::cout << "Citation " << citation.getName() << " added" << std::endl;
             repository.serializeCollection(collection);
         }
     }

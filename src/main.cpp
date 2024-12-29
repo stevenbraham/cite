@@ -15,6 +15,7 @@ program_options::variables_map setupArgs(int argc, char *argv[], const program_o
     program_options::positional_options_description p;
     p.add("collectionName", 1); // The first positional argument is 'collectionName'
     p.add("action", 1);         // The second positional argument is 'action'
+    p.add("citationName", 1);   // The third positional argument is 'citationName'
 
     program_options::variables_map vm;
 
@@ -36,7 +37,7 @@ int main(int argc, char *argv[])
 
     // Define the supported options
     program_options::options_description desc("Allowed options");
-    desc.add_options()("help,h", "Display help message")("collectionName", program_options::value<std::string>(), "Name of the collection to use")("action", program_options::value<std::string>(), "Action to perform on the collection");
+    desc.add_options()("help,h", "Display help message")("collectionName", program_options::value<std::string>(), "Name of the collection to use")("action", program_options::value<std::string>(), "Action to perform on the collection")("citationName", program_options::value<std::string>(), "to modify or display (optional)");
     program_options::variables_map vm = setupArgs(argc, argv, desc);
 
     // Handle help option before notifying (to allow help without required options)
@@ -71,13 +72,32 @@ int main(int argc, char *argv[])
 
     const std::string action = vm["action"].as<std::string>();
 
-    if (action == "list")
+    if (action == "list" || action == "l")
     {
-        collection.list();
+        Cite::Handlers::handleListAction(collection);
+        return 0;
     }
-    else if (action == "add")
+
+    else if (action == "add" || action == "a")
     {
         Cite::Handlers::handleAddAction(collection, repository);
+        return 0;
+    }
+
+    // for the remaining actions, citationName is required as identifier
+
+    if (!vm.count("citationName"))
+    {
+        std::cerr << "Error: 'citationName' is required.\n";
+        std::cerr << "Use --help or -h to display usage.\n";
+        return 1;
+    }
+    const std::string citationName = vm["citationName"].as<std::string>();
+
+    if (action == "delete" || action == "d")
+    {
+        Cite::Handlers::handleDeleteAction(collection, repository, citationName);
+        return 0;
     }
     else
     {

@@ -1,5 +1,5 @@
 #include "Collection.h"
-#include "../../external/cpp-slugify/slugify.hpp"
+#include "../lib/toSlug.h"
 #include <iostream>
 
 namespace Cite::Models
@@ -8,17 +8,12 @@ namespace Cite::Models
     std::string Collection::getName() const
     {
         // ensure the name is a valid slug
-        return slugify(this->name);
+        return Cite::toSlug(this->name);
     }
 
     Collection::Collection(const std::string &name)
     {
         this->name = name;
-    }
-
-    void Collection::list()
-    {
-        std::cout << "Listing collection: " << this->name << std::endl;
     }
 
     void Collection::addCitation(const Citation &citation)

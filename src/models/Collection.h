@@ -45,11 +45,6 @@ namespace Cite::Models
         void removeCitation(const std::string &name);
 
         /**
-         * Lists the citations in the collection.
-         */
-        void list();
-
-        /**
          * Returns a vector of all citations in the collection.
          */
         const std::vector<Citation> &getCitations() const;
