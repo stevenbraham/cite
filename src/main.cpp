@@ -5,6 +5,7 @@
 #include "lib/YamlCollectionRepository.h"
 #include "models/Collection.h"
 #include "models/Citation.h"
+#include "handlers/handlers.h"
 
 namespace program_options = boost::program_options;
 
@@ -28,32 +29,6 @@ program_options::variables_map setupArgs(int argc, char *argv[], const program_o
 }
 
 Cite::YamlCollectionRepository repository;
-
-/**
- * Prompts the user to create a new citation.
- */
-Cite::Models::Citation createCitation()
-{
-    std::cout << "Enter the title of the citation: ";
-    std::string title;
-    std::getline(std::cin, title);
-    Cite::Models::Citation citation;
-
-    citation.setTitle(title);
-
-    return citation;
-}
-
-/**
- * Handles the 'add' action for a collection.
- */
-void handleAdd(Cite::Models::Collection &collection)
-{
-    std::cout << "Adding citation to collection: " << collection.getName() << std::endl;
-    collection.addCitation(createCitation());
-    std::cout << "Citation added to collection: " << collection.getName() << std::endl;
-    repository.serializeCollection(collection);
-}
 
 int main(int argc, char *argv[])
 {
@@ -102,7 +77,7 @@ int main(int argc, char *argv[])
     }
     else if (action == "add")
     {
-        handleAdd(collection);
+        Cite::Handlers::handleAddAction(collection, repository);
     }
     else
     {

@@ -29,9 +29,10 @@ add_subdirectory(external/yaml-cpp)
 file(GLOB SRC_FILES "src/*.cpp")
 file(GLOB LIB_FILES "src/lib/*.cpp")
 file(GLOB MODELS_FILES "src/models/*.cpp")
+file(GLOB HANDLER_FILES "src/handlers/*.cpp")
 
 # Combine all source files
-set(SOURCES ${SRC_FILES} ${LIB_FILES} ${MODELS_FILES})
+set(SOURCES ${SRC_FILES} ${LIB_FILES} ${MODELS_FILES} ${HANDLER_FILES})
 
 # Add executable
 add_executable(cite ${SOURCES})

@@ -8,6 +8,7 @@ namespace Cite
      */
     class CollectionRepository
     {
+    public:
         /**
          * Stores the collection to disk or other persitant storage.
          */
